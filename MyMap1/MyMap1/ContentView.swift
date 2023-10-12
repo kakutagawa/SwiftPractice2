@@ -38,17 +38,10 @@ struct ContentView: View {
                     //標準→衛星写真→衛星写真＋交通機関ラベル
                     switch displayMapType {
                     case .standard:
-                        
-                    case .satellite:
-                        
-                    case .hybrid:
-                    }
-                    
-                    if displayMapType == .standard {
                         displayMapType = .satellite
-                    } else if displayMapType == .satellite {
+                    case .satellite:
                         displayMapType = .hybrid
-                    } else {
+                    case .hybrid:
                         displayMapType = .standard
                     }
                 } label: {
