@@ -86,8 +86,8 @@ struct ContentView: View {
                     .frame(maxWidth: .infinity)
                     .frame(height: 100)
                     .font(.title)
-                    .background(Color.pink)
-                    .foregroundColor(Color.white)
+                    .background(.pink)
+                    .foregroundColor(.white)
             }
         }
     }
