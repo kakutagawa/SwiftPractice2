@@ -8,23 +8,30 @@
 import UIKit
 import AVFoundation
 
-class SoundPlayer: NSObject {
+enum Const {
+    static let cymbalSound = "cymbalSound"
+    static let guitarSound = "guitarSound"
+}
+
+final class SoundPlayer: NSObject {
     //シンバルの音源データ読み込み
-    let cymbalData = NSDataAsset(name: "cymbalSound")!.data
+    private let cymbalData = NSDataAsset(name: Const.cymbalSound)?.data
     //シンバル用プレイヤーの変数
-    var cymbalPlayer: AVAudioPlayer!
-    
+    private var cymbalPlayer: AVAudioPlayer?
+
     //ギターの音源データ読み込み
-    let guitarData = NSDataAsset(name: "guitarSound")!.data
+    private let guitarData = NSDataAsset(name: Const.guitarSound)?.data
     //ギター用プレイヤーの変数
-    var guitarPlayer: AVAudioPlayer!
-    
+    private var guitarPlayer: AVAudioPlayer?
+
     func cymbalPlay() {
         do {
             //シンバル用プレイヤーに音源データを指定
-            cymbalPlayer = try AVAudioPlayer(data: cymbalData)
+            if let cymbalData {
+                cymbalPlayer = try AVAudioPlayer(data: cymbalData)
+            }
             //シンバルの音源再生
-            cymbalPlayer.play()
+            cymbalPlayer?.play()
         } catch {
             print("シンバルで、エラーが発生しました！")
         }
@@ -33,9 +40,12 @@ class SoundPlayer: NSObject {
     func guitarPlay() {
         do {
             //ギター用プレイヤーに音源データを指定
+            guard let guitarData else {
+                return
+            }
             guitarPlayer = try AVAudioPlayer(data: guitarData)
             //ギターの音源再生
-            guitarPlayer.play()
+            guitarPlayer?.play()
         } catch {
             print("ギターで、エラーが発生しました！")
         }
