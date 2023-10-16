@@ -14,6 +14,8 @@ struct ContentView: View {
     @State private var count = 0
     //永続化する秒数設定（初期値は10)
     @AppStorage("timer_value") private var timerValue = 10
+    //アラート表示有無
+    @State var showAlert = false
 
     var body: some View {
         NavigationStack {
@@ -31,7 +33,7 @@ struct ContentView: View {
                 //View(部品)間の間隔を30に
                 VStack(spacing: 30.0) {
                     //テキスト表示
-                    Text("残り10秒")
+                    Text("残り\(timerValue - count)秒")
                     //文字サイズの指定
                         .font(.largeTitle)
                     //水平方向レイアウト
@@ -39,6 +41,8 @@ struct ContentView: View {
                         //スタートボタン
                         Button {
                             //ボタンタップ時のアクション
+                            //タイマーをカウントダウン開始する関数
+                            startTimer()
 
                         } label: {
                             Text("スタート")
@@ -56,6 +60,15 @@ struct ContentView: View {
                         //ストップボタン
                         Button {
                             //ボタンタップ時のアクション
+                            //timerHandlerをアンラップしてunwrappedTimerHandlerに代入
+                            if let unwrapedTimerHandler = timerHandler {
+                                //もしタイマーが実行中だったら停止
+                                if unwrapedTimerHandler.isValid == true {
+                                    //タイマー停止
+                                    unwrapedTimerHandler.invalidate()
+                                }
+                            }
+
 
                         } label: {
                             Text("ストップ")
@@ -73,6 +86,11 @@ struct ContentView: View {
                     }
                 }//VStack
             }//ZStack
+            //画面が表示されるときに実行
+            .onAppear {
+                //カウント（経過時間）の変数を初期化
+                count = 0
+            } // .onAppear
             //ナビゲーションにボタンを追加
             .toolbar {
                 //ナビゲーションバーの右下にボタン追加
@@ -86,6 +104,16 @@ struct ContentView: View {
                     }//NavigationLink
                 }//ToolbarItem
             }//.toolbar
+
+            //状態変数showAlertがtrueになったときに実行
+            .alert("終了", isPresented: $showAlert) {
+                Button("OK") {
+                    //OKをタップしたときに実行
+                    print("OKタップされました")
+                }
+            } message: {
+                Text("タイマー終了時間です")
+            }//.alert
         }//NavigationStack
     }//body
 
@@ -98,10 +126,35 @@ struct ContentView: View {
         if timerValue - count <= 0 {
             //タイマー停止
             timerHandler?.invalidate()
+            //アラート表示
+            showAlert = true
         }
     }//countDownTimer()ここまで
 
     //タイマーをカウントダウン開始する関数
+    func startTimer() {
+        //timerHandlerをアンラップしてunwrappedTimerHandlerに代入
+        if let unwrappedTimerHandler = timerHandler {
+            //もしタイマーが実行中だったらスタートしない
+            if unwrappedTimerHandler.isValid == true {
+                //何も処理しない
+                return
+            }
+        }
+
+        //残り時間が0以下の時、count（経過時間）を0に初期化
+        if timerValue - count <= 0 {
+            //countを0に
+            count = 0
+        }
+
+        //タイマーをスタート
+        timerHandler = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            //タイマー実行時に呼び出される
+            //1秒ごとに実行されてカウントダウンする関数を実行
+            countDownTimer()
+        }
+    }//startTimer
 }//ContentView
 
 #Preview {

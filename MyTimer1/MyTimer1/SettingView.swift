@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct SettingView: View {
-    //秒数設定
-    @State private var timerValue = 10
+    //永続化する秒数設定(初期値は10）
+    @AppStorage("timer_value") var timerValue = 10
+    
     var body: some View {
         //奥から手前方向にレイアウト
         ZStack {
