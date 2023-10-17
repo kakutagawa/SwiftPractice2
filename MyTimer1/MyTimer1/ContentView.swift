@@ -15,7 +15,7 @@ struct ContentView: View {
     //永続化する秒数設定（初期値は10)
     @AppStorage("timer_value") private var timerValue = 10
     //アラート表示有無
-    @State var showAlert = false
+    @State private var showAlert = false
 
     var body: some View {
         NavigationStack {
@@ -43,7 +43,6 @@ struct ContentView: View {
                             //ボタンタップ時のアクション
                             //タイマーをカウントダウン開始する関数
                             startTimer()
-
                         } label: {
                             Text("スタート")
                             //文字サイズ
@@ -61,21 +60,17 @@ struct ContentView: View {
                         Button {
                             //ボタンタップ時のアクション
                             //timerHandlerをアンラップしてunwrappedTimerHandlerに代入
-                            if let unwrapedTimerHandler = timerHandler {
+                            if let unwrapedTimerHandler = timerHandler, unwrapedTimerHandler.isValid {
                                 //もしタイマーが実行中だったら停止
-                                if unwrapedTimerHandler.isValid == true {
-                                    //タイマー停止
-                                    unwrapedTimerHandler.invalidate()
-                                }
+                                unwrapedTimerHandler.invalidate()
+
                             }
-
-
                         } label: {
                             Text("ストップ")
                             //文字サイズ
                                 .font(.title)
                             //文字色を白に
-                                .foregroundColor(Color.white)
+                                .foregroundColor(.white)
                             //幅高さを140に
                                 .frame(width: 140, height: 140)
                             //背景を設定
@@ -104,7 +99,6 @@ struct ContentView: View {
                     }//NavigationLink
                 }//ToolbarItem
             }//.toolbar
-
             //状態変数showAlertがtrueになったときに実行
             .alert("終了", isPresented: $showAlert) {
                 Button("OK") {
@@ -118,7 +112,7 @@ struct ContentView: View {
     }//body
 
     //1秒ごとに実行されてカウントダウンする
-    func countDownTimer() {
+    private func countDownTimer() {
         //count（経過時間）に+1していく
         count += 1
 
@@ -134,13 +128,11 @@ struct ContentView: View {
     //タイマーをカウントダウン開始する関数
     func startTimer() {
         //timerHandlerをアンラップしてunwrappedTimerHandlerに代入
-        if let unwrappedTimerHandler = timerHandler {
-            //もしタイマーが実行中だったらスタートしない
-            if unwrappedTimerHandler.isValid == true {
-                //何も処理しない
-                return
+        if let unwrappedTimerHandler = timerHandler, unwrappedTimerHandler.isValid {
+            //何も処理しない
+            return
             }
-        }
+
 
         //残り時間が0以下の時、count（経過時間）を0に初期化
         if timerValue - count <= 0 {
