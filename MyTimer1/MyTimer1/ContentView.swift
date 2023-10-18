@@ -48,7 +48,7 @@ struct ContentView: View {
                             //文字サイズ
                                 .font(.title)
                             //文字色を白に
-                                .foregroundColor(Color.white)
+                                .foregroundColor(.white)
                             //幅高さを140に
                                 .frame(width: 140, height: 140)
                             //背景を設定
@@ -63,7 +63,6 @@ struct ContentView: View {
                             if let unwrapedTimerHandler = timerHandler, unwrapedTimerHandler.isValid {
                                 //もしタイマーが実行中だったら停止
                                 unwrapedTimerHandler.invalidate()
-
                             }
                         } label: {
                             Text("ストップ")
@@ -126,20 +125,17 @@ struct ContentView: View {
     }//countDownTimer()ここまで
 
     //タイマーをカウントダウン開始する関数
-    func startTimer() {
+    private func startTimer() {
         //timerHandlerをアンラップしてunwrappedTimerHandlerに代入
         if let unwrappedTimerHandler = timerHandler, unwrappedTimerHandler.isValid {
             //何も処理しない
             return
-            }
-
-
+        }
         //残り時間が0以下の時、count（経過時間）を0に初期化
         if timerValue - count <= 0 {
             //countを0に
             count = 0
         }
-
         //タイマーをスタート
         timerHandler = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             //タイマー実行時に呼び出される
