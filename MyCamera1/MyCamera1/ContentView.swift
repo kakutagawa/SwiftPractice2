@@ -81,7 +81,7 @@ struct ContentView: View {
                     .padding()
             }//PhotosPickerここまで
             //選択した写真情報をもとに写真を取り出す
-            .onChange(of: photoPickerSelectedImage) { PhotosPickerItem in
+            .onChange(of: photoPickerSelectedImage) { _, PhotosPickerItem in
                 //選択した写真がある時
                 if let PhotosPickerItem {
                     //Data型で写真を取り出す
@@ -101,9 +101,9 @@ struct ContentView: View {
             }//Onchange
             
             //captureImageをアンラップ
-            if let captureImage,
+            if let captureImage {
                 //captureImageから共有する画像を生成
-               let shareImage = Image(uiImage: captureImage) {
+               let shareImage = Image(uiImage: captureImage)
                 //共有シート
                 ShareLink(item: shareImage, subject: nil, message: nil, preview: SharePreview("Photo", image: shareImage)) {
                     //テキスト表示
