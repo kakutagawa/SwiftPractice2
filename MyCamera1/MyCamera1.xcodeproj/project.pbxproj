@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1DBC04092AE6C5E000FF82AF /* EffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBC04082AE6C5E000FF82AF /* EffectView.swift */; };
+		1DBC040B2AE8001700FF82AF /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBC040A2AE8001600FF82AF /* UIImageExtension.swift */; };
 		1DC6893C2ADF4768009832C4 /* MyCamera1App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC6893B2ADF4768009832C4 /* MyCamera1App.swift */; };
 		1DC6893E2ADF4768009832C4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC6893D2ADF4768009832C4 /* ContentView.swift */; };
 		1DC689402ADF476A009832C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DC6893F2ADF476A009832C4 /* Assets.xcassets */; };
@@ -35,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1DBC04082AE6C5E000FF82AF /* EffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectView.swift; sourceTree = "<group>"; };
+		1DBC040A2AE8001600FF82AF /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		1DC689382ADF4768009832C4 /* MyCamera1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyCamera1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DC6893B2ADF4768009832C4 /* MyCamera1App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCamera1App.swift; sourceTree = "<group>"; };
 		1DC6893D2ADF4768009832C4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -98,7 +102,9 @@
 			children = (
 				1DC6893B2ADF4768009832C4 /* MyCamera1App.swift */,
 				1DC6893D2ADF4768009832C4 /* ContentView.swift */,
+				1DBC040A2AE8001600FF82AF /* UIImageExtension.swift */,
 				1DC689652ADF4D8D009832C4 /* ImagePickerView.swift */,
+				1DBC04082AE6C5E000FF82AF /* EffectView.swift */,
 				1DC6893F2ADF476A009832C4 /* Assets.xcassets */,
 				1DC689412ADF476A009832C4 /* Preview Content */,
 			);
@@ -263,6 +269,8 @@
 				1DC6893E2ADF4768009832C4 /* ContentView.swift in Sources */,
 				1DC689662ADF4D8D009832C4 /* ImagePickerView.swift in Sources */,
 				1DC6893C2ADF4768009832C4 /* MyCamera1App.swift in Sources */,
+				1DBC040B2AE8001700FF82AF /* UIImageExtension.swift in Sources */,
+				1DBC04092AE6C5E000FF82AF /* EffectView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

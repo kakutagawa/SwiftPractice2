@@ -20,23 +20,14 @@ struct ContentView: View {
         VStack {
             //スペース追加
             Spacer()
-            //撮影した写真がある時
-            if let captureImage {
-                //撮影写真を表示
-                Image (uiImage: captureImage)
-                //リサイズ
-                    .resizable()
-                //アスペクト比を維持して画面に収める
-                    .scaledToFit()
-            }
-            //スペース追加
-            Spacer()
             //ボタン
             Button {
                 //ボタンタップした時のアクション
                 //カメラが利用可能かチェック
                 if UIImagePickerController.isSourceTypeAvailable(.camera) {
                     print("カメラは利用できます")
+                    //撮影写真を初期化する
+                    captureImage = nil
                     //カメラが使えるなら、isShowSheetをtrue
                     isShowSheet.toggle()
                 } else {
@@ -61,8 +52,13 @@ struct ContentView: View {
             //sheetを表示
             //isPresentedで指定した状態変数がtrueの時実行
             .sheet(isPresented: $isShowSheet) {
-                //UIImagePickerController（写真撮影）を表示
-                ImagePickerView(isShowSheet: $isShowSheet, captureImage: $captureImage)
+                if let captureImage {
+                    //撮影した写真がある→EffectViewを実行する
+                    EffectView(isShowSheet: $isShowSheet, captureImage: captureImage)
+                } else {
+                    //UIImagePickerController（写真撮影）を表示
+                    ImagePickerView(isShowSheet: $isShowSheet, captureImage: $captureImage)
+                }
             }//「カメラを起動する」ボタンのシートここまで
 
             //フォトライブラリーから選択する
@@ -90,6 +86,8 @@ struct ContentView: View {
                         case .success(let data):
                             //写真がある時
                             if let data {
+                                //撮影写真を初期化する
+                                captureImage = nil
                                 //写真をcaptureImageに保存
                                 captureImage = UIImage(data: data)
                             }
@@ -99,28 +97,14 @@ struct ContentView: View {
                     }
                 }
             }//Onchange
-            
-            //captureImageをアンラップ
-            if let captureImage {
-                //captureImageから共有する画像を生成
-               let shareImage = Image(uiImage: captureImage)
-                //共有シート
-                ShareLink(item: shareImage, subject: nil, message: nil, preview: SharePreview("Photo", image: shareImage)) {
-                    //テキスト表示
-                    Text("SNSに投稿する")
-                    //横幅いっぱい
-                        .frame(maxWidth: .infinity)
-                    //高さ50ポイント
-                        .frame(height: 50)
-                    //背景青色
-                        .background(.blue)
-                    //文字色を白色に
-                        .foregroundColor(.white)
-                    //上下左右に余白
-                        .padding()
-                }//ShareLink
-            }//アンラップ
         }//VStack
+        //撮影した写真を保持する状態変数が変化したら実行する
+        .onChange(of: captureImage) { _, image in
+            if let _ = image {
+                //撮影した写真がある→EffectViewを表示する
+                isShowSheet.toggle()
+            }
+        }
     }//body
 }//ContentView
 
